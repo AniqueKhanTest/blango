@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os,dj_database_url
+import os
+import dj_database_url
 from pathlib import Path
-from configurations import Configuration,values
+from configurations import Configuration, values
 
 
 class DEV(Configuration):
@@ -88,49 +89,49 @@ class DEV(Configuration):
     # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
     DATABASES = {
-        "default":dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
-        "alternative":dj_database_url.config(
-            "ALTERNATIVE_DATABASE_URL",default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
+        "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3"),
+        "alternative": dj_database_url.config(
+            "ALTERNATIVE_DATABASE_URL", default=f"sqlite:///{BASE_DIR}/alternative_db.sqlite3",
         ),
     }
     LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
+        "version": 1,
+        "disable_existing_loggers": False,
+        "filters": {
+            "require_debug_false": {
+                "()": "django.utils.log.RequireDebugFalse",
+            },
         },
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
-            "style": "{",
+        "formatters": {
+            "verbose": {
+                "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+                "style": "{",
+            },
         },
-    },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "stream": "ext://sys.stdout",
-            "formatter": "verbose",
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://sys.stdout",
+                "formatter": "verbose",
+            },
+            "mail_admins": {
+                "level": "ERROR",
+                "class": "django.utils.log.AdminEmailHandler",
+                "filters": ["require_debug_false"],
+            },
         },
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler",
-            "filters": ["require_debug_false"],
+        "loggers": {
+            "django.request": {
+                "handlers": ["mail_admins"],
+                "level": "ERROR",
+                "propagate": True,
+            },
         },
-    },
-    "loggers": {
-        "django.request": {
-            "handlers": ["mail_admins"],
-            "level": "ERROR",
-            "propagate": True,
+        "root": {
+            "handlers": ["console"],
+            "level": "DEBUG",
         },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG",
-    },
-}
+    }
     # Password validation
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -171,6 +172,16 @@ class DEV(Configuration):
     # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+    """
+    Let’s make Blango a bit more secure, by switching to Argon2 for password hashing.
+    """
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.Argon2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+        'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    ]
 
 
 class Prod(DEV):
