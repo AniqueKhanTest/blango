@@ -2,12 +2,18 @@ from blog.models import Post
 from django.shortcuts import render, get_object_or_404, redirect
 from blog.forms import CommentForm
 from logging import getLogger
-
+# from django.views.decorators.cache import cache_page
+# from django.views.decorators.vary import vary_on_cookie
 logger = getLogger(__name__)
 
+
+# @cache_page(300)
+# @vary_on_cookie
 def index(request):
+    # from django.http import HttpResponse
+    # return HttpResponse(str(request.user).encode("ascii"))
     posts = Post.objects.all()
-    logger.debug("Got %d posts",len(posts))
+    logger.debug("Got %d posts", len(posts))
     return render(request, "blog/index.html", {"posts": posts})
 
 
@@ -22,7 +28,8 @@ def post_detail(request, slug):
                 comment.content_object = post
                 comment.creator = request.user
                 comment.save()
-                logger.info("Created comment on Post %d for user %s",post.pk,request.user)
+                logger.info("Created comment on Post %d for user %s",
+                            post.pk, request.user)
                 return redirect(request.path_info)
         else:
             comment_form = CommentForm()

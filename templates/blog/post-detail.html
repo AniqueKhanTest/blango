@@ -1,21 +1,21 @@
-{% extends "base.html" %}
-{% load blog_extras %}
-{% block content %}
+{% extends "base.html" %} {% load blog_extras cache %} {% block content %}
 <h2>{{ post.title }}</h2>
-{% row %}
-    {% col %}
-        {% include "blog/post-byline.html" %}
-    {% endcol %}
+{% row %} 
+    {% col %} 
+        {% include "blog/post-byline.html" %} 
+    {% endcol %} 
 {% endrow %}
 {% row %}
-    {% col %}
-        {{ post.content|safe }}
-    {% endcol %}
-{% endrow %}
-{% include "blog/post-comments.html" %}
-{% row %}
-    {% col %}
-        {% recent_posts post %}
-    {% endcol %}
-{% endrow %}
+    {% col %} 
+        {{ post.content|safe }} 
+    {% endcol %} 
+{% endrow %} 
+{% include "blog/post-comments.html" %} 
+{% row %} 
+    {% col %} 
+        {% cache 3600 recent_posts post %}
+            {% recent_posts post %}
+        {% endcache %}
+    {% endcol %} 
+{% endrow %} 
 {% endblock %}

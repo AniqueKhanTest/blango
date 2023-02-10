@@ -15,7 +15,7 @@ from pathlib import Path
 from configurations import Configuration, values
 
 
-class DEV(Configuration):
+class Dev(Configuration):
 
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -184,5 +184,6 @@ class DEV(Configuration):
     ]
 
 
-class Prod(DEV):
+class Prod(Dev):
+    DEBUG = True
     SECRET_KEY = values.SecretValue()
