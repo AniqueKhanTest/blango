@@ -49,13 +49,15 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         "blog",
         "crispy_bootstrap5",
-        "crispy_forms"
+        "crispy_forms",
+        "debug_toolbar",
     ]
 
     CRISPY_TEMPLATE_PACK = "bootstrap5"
     CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-
+    INTERNAL_IPS = ["127.0.0.1"]
     MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',

@@ -2,6 +2,7 @@ from blog.models import Post
 from django.shortcuts import render, get_object_or_404, redirect
 from blog.forms import CommentForm
 from logging import getLogger
+from django.utils import timezone
 # from django.views.decorators.cache import cache_page
 # from django.views.decorators.vary import vary_on_cookie
 logger = getLogger(__name__)
@@ -12,7 +13,10 @@ logger = getLogger(__name__)
 def index(request):
     # from django.http import HttpResponse
     # return HttpResponse(str(request.user).encode("ascii"))
-    posts = Post.objects.all()
+    posts = Post.objects.filter(
+        published_at__lte=timezone.now()).select_related("author")
+    # posts = Post.objects.filter(
+    #     published_at__lte=timezone.now()).select_related("author").only("title", "summary", "content", "author", "published_at", "slug")
     logger.debug("Got %d posts", len(posts))
     return render(request, "blog/index.html", {"posts": posts})
 
