@@ -71,7 +71,9 @@ class Dev(Configuration):
     AUTH_USER_MODEL = 'blango_auth.User'
 
     ROOT_URLCONF = 'blango.urls'
-
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    ACCOUNT_ACTIVATION_DAYS = 7
+    # REGISTRATION_OPEN = False
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
