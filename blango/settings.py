@@ -51,6 +51,7 @@ class Dev(Configuration):
         "crispy_bootstrap5",
         "crispy_forms",
         "debug_toolbar",
+        "blango_auth",
     ]
 
     CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -66,6 +67,8 @@ class Dev(Configuration):
         'django.contrib.messages.middleware.MessageMiddleware',
         # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
+
+    AUTH_USER_MODEL = 'blango_auth.User'
 
     ROOT_URLCONF = 'blango.urls'
 
