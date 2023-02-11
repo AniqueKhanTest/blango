@@ -29,7 +29,8 @@ class Dev(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(True)
 
-    ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io"])
+    ALLOWED_HOSTS = values.ListValue(
+        ["localhost", "0.0.0.0", ".codio.io", "127.0.0.1"])
     # X_FRAME_OPTIONS = 'ALLOW-FROM ' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io'
     # CSRF_COOKIE_SAMESITE = None
     # CSRF_TRUSTED_ORIGINS = ['https://' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io']
@@ -45,6 +46,7 @@ class Dev(Configuration):
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
+        "django.contrib.sites",
         'django.contrib.messages',
         'django.contrib.staticfiles',
         "blog",
@@ -52,7 +54,16 @@ class Dev(Configuration):
         "crispy_forms",
         "debug_toolbar",
         "blango_auth",
+        "allauth",
+        "allauth.account",
+        "allauth.socialaccount",
+        "allauth.socialaccount.providers.google"
     ]
+    SITE_ID = 1
+    ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_USERNAME_REQUIRED = False
+    ACCOUNT_AUTHENTICATION_METHOD = "email"
 
     CRISPY_TEMPLATE_PACK = "bootstrap5"
     CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
