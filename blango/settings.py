@@ -71,7 +71,14 @@ class Dev(Configuration):
     AUTH_USER_MODEL = 'blango_auth.User'
 
     ROOT_URLCONF = 'blango.urls'
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = "aniquekhan004@gmail.com"
+    EMAIL_HOST_PASSWORD = "ivaysxwqfxgfcotu"
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = 587
+
     ACCOUNT_ACTIVATION_DAYS = 7
     # REGISTRATION_OPEN = False
     TEMPLATES = [
