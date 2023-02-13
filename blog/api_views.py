@@ -29,7 +29,7 @@ def post_list(request):
     elif request.method == "POST":
         post_data = json.loads(request.body)
         post = Post.objects.create(**post_data)
-        return HttpResponse(status=HTTPStatus.CREATED,headers={"Location":reverse("api_post_detail",args=(post.pk))})
+        return HttpResponse(status=HTTPStatus.CREATED,headers={"Location":reverse("api_post_detail",args=(post.pk,))})
     return HttpResponseNotAllowed(['GET',"POST"])
 
 @csrf_exempt
@@ -37,7 +37,7 @@ def post_detail(request,pk):
     post = get_object_or_404(Post,pk=pk)
     if request.method == 'GET':
         return JsonResponse(post_to_dict(post))
-    elif request.method=='POST':
+    elif request.method=='PUT':
         post_data = json.loads(request.body)
         for field,value in post_data.items():
             setattr(post,field, value)
@@ -46,4 +46,4 @@ def post_detail(request,pk):
     elif request.method == 'DELETE':
         post.delete()
         return HttpResponse(status=HTTPStatus.NO_CONTENT)
-    return HttpResponseNotAllowed(['GET','POST','DELETE'])
+    return HttpResponseNotAllowed(['GET','PUT','DELETE'])

@@ -209,6 +209,7 @@ class Dev(Configuration):
     ]
 
 
+
 class Prod(Dev):
     DEBUG = True
     SECRET_KEY = values.SecretValue()
