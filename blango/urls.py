@@ -24,10 +24,10 @@ urlpatterns = [
     path('', include("blango_auth.urls")),
     path("", blog.views.index),
     path("post/<slug>/", blog.views.post_detail, name="blog-post-detail"),
+    path("api/", include("blog.api_urls")),
 
 ]
 if settings.DEBUG:
     urlpatterns += [
         path("__debug__/", include(debug_toolbar.urls)),
     ]
-# print(f"Time zone: {settings.TIME_ZONE}")
