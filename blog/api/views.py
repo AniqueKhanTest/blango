@@ -4,7 +4,7 @@
 # from rest_framework.response import Response
 from ..serializers import PostSerializer
 from ..models import Post
-
+from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
 # Function based view
 
 # @api_view(["GET", "POST"])
@@ -52,4 +52,5 @@ class PostList(generics.ListCreateAPIView):
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
+    permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
     serializer_class = PostSerializer

@@ -110,6 +110,10 @@ class Dev(Configuration):
         },
     ]
 
+    LOGIN_REDIRECT_URL = 'index'
+    LOGOUT_REDIRECT_URL = 'login'
+    LOGIN_URL = 'login'
+
     WSGI_APPLICATION = 'blango.wsgi.application'
 
     # Database
@@ -163,18 +167,18 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
     AUTH_PASSWORD_VALIDATORS = [
-        {
-            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-        },
+        # {
+        #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        # },
+        # {
+        #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        # },
+        # {
+        #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        # },
+        # {
+        #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        # },
     ]
 
     # Internationalization
@@ -215,7 +219,10 @@ class Dev(Configuration):
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
-    ]
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+    ],
     }
 
 
