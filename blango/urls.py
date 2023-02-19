@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include("blango_auth.urls")),
     path("", blog.views.index),
     path("post/<slug>/", blog.views.post_detail, name="blog-post-detail"),
-    path("api/", include("blog.api_urls")),
+    path("api/", include("blog.api.urls")),
 
 ]
 if settings.DEBUG:
