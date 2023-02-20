@@ -2,7 +2,7 @@
 # from django.urls import reverse
 # from rest_framework.decorators import api_view
 # from rest_framework.response import Response
-from ..serializers import PostSerializer
+from ..serializers import PostSerializer,PostDetailSerializer
 from ..models import Post
 from .serializers import UserSerializer
 from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
@@ -55,7 +55,7 @@ class PostList(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
-    serializer_class = PostSerializer
+    serializer_class = PostDetailSerializer
 
 
 class UserDetail(generics.RetrieveAPIView):

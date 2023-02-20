@@ -16,6 +16,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.content
+
 
 class Tag(models.Model):
     value = models.TextField(max_length=100,unique=True)
