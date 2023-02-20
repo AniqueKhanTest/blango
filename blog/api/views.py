@@ -4,7 +4,9 @@
 # from rest_framework.response import Response
 from ..serializers import PostSerializer
 from ..models import Post
+from .serializers import UserSerializer
 from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
+from blango_auth.models import User
 # Function based view
 
 # @api_view(["GET", "POST"])
@@ -54,3 +56,9 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
     serializer_class = PostSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    lookup_field = "email"
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

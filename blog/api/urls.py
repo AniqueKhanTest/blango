@@ -8,7 +8,8 @@ urlpatterns = [
     # path("posts/<int:pk>/", post_detail, name="api_post_detail"),
     path("posts/", PostList.as_view(), name="api_post_list"),
     path("posts/<int:pk>/", PostDetail.as_view(), name="api_post_detail"),
-    path("token-auth/", drf_auth_views.obtain_auth_token)
+    path("token-auth/", drf_auth_views.obtain_auth_token),
+    path("users/<str:email>", UserDetail.as_view(), name="api_user_detail"),
 ]
 urlpatterns += [
     path("auth/", include("rest_framework.urls")),
