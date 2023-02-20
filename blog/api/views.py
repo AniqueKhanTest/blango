@@ -62,3 +62,44 @@ class UserDetail(generics.RetrieveAPIView):
     lookup_field = "email"
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+
+# Q2
+# class InversePermissions(BasePermission):
+#     # Question 2: Implement your permission methods
+#     def has_permission(self, request, view):
+#         if request.method in SAFE_METHODS:
+#             return not request.user.is_anonymous
+
+#         return request.user.is_anonymous
+
+#     def has_object_permission(self, request, view, obj):
+#         if request.method in SAFE_METHODS:
+#             return not request.user.is_anonymous
+
+#         return request.user.is_anonymous
+
+
+#Q3
+# def create(self, validated_data):
+#         address_dict = validated_data.pop("address")
+#         address = Address.objects.get_or_create(**address_dict)[0]
+#         validated_data["address"] = address
+#         return super(CustomerSerializer, self).create(validated_data)
+
+
+#     def update(self, instance, validated_data):
+#         address_dict = validated_data.pop("address")
+#         super(CustomerSerializer, self).update(instance, validated_data)
+
+#         if (
+#             instance.address.street_name != address_dict["street_name"]
+#             or instance.address.city != address_dict["city"]
+#         ):
+#             address = Address.objects.get_or_create(**address_dict)[0]
+#             instance.address = address
+#             instance.save()
+
+#         return instance
