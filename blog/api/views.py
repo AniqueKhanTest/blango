@@ -1,12 +1,74 @@
+from ..models import Post,Tag
+from .serializers import PostDetailSerializer,PostSerializer,UserSerializer,TagSerializer
+from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
+from blango_auth.models import User
+from rest_framework import generics,viewsets
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+## Class Based Views
+
+# Swagger
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Blango API",
+        default_version = "v1",
+        description="API for Blango Blog"
+    ),
+    url = "http://localhost:8000/api/",
+    public=True
+)
+
+# class PostList(generics.ListCreateAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+
+# class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Post.objects.all()
+#     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
+#     serializer_class = PostDetailSerializer
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
+
+    def get_serializer_class(self):
+        if self.action in ("list","create"):
+            return PostSerializer
+        return PostDetailSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    lookup_field = "email"
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+    @action(methods=['get'],detail=True,name='Posts with the Tag')
+    def posts(self,request,pk=None):
+        tag = self.get_object()
+        post_serializer = PostSerializer(tag.posts,many=True,context={"request":request})
+        return Response(post_serializer.data)
+
+
+
+
+
+
+
 # from http import HTTPStatus
 # from django.urls import reverse
 # from rest_framework.decorators import api_view
-# from rest_framework.response import Response
-from ..serializers import PostSerializer,PostDetailSerializer
-from ..models import Post
-from .serializers import UserSerializer
-from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
-from blango_auth.models import User
+# from rest_framework.response import Response    
+
+
+
 # Function based view
 
 # @api_view(["GET", "POST"])
@@ -41,65 +103,3 @@ from blango_auth.models import User
 #     elif request.method == 'DELETE':
 #         post.delete()
 #         return Response(status=HTTPStatus.NO_CONTENT)
-
-
-## Class Based Views
-## Taking the second approach
-
-from rest_framework import generics
-
-class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
-    permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
-    serializer_class = PostDetailSerializer
-
-
-class UserDetail(generics.RetrieveAPIView):
-    lookup_field = "email"
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-from rest_framework.permissions import BasePermission, SAFE_METHODS
-
-# Q2
-# class InversePermissions(BasePermission):
-#     # Question 2: Implement your permission methods
-#     def has_permission(self, request, view):
-#         if request.method in SAFE_METHODS:
-#             return not request.user.is_anonymous
-
-#         return request.user.is_anonymous
-
-#     def has_object_permission(self, request, view, obj):
-#         if request.method in SAFE_METHODS:
-#             return not request.user.is_anonymous
-
-#         return request.user.is_anonymous
-
-
-#Q3
-# def create(self, validated_data):
-#         address_dict = validated_data.pop("address")
-#         address = Address.objects.get_or_create(**address_dict)[0]
-#         validated_data["address"] = address
-#         return super(CustomerSerializer, self).create(validated_data)
-
-
-#     def update(self, instance, validated_data):
-#         address_dict = validated_data.pop("address")
-#         super(CustomerSerializer, self).update(instance, validated_data)
-
-#         if (
-#             instance.address.street_name != address_dict["street_name"]
-#             or instance.address.city != address_dict["city"]
-#         ):
-#             address = Address.objects.get_or_create(**address_dict)[0]
-#             instance.address = address
-#             instance.save()
-
-#         return instance
