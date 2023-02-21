@@ -102,3 +102,5 @@ class PostApiTestCase(TestCase):
 
         self.assertEqual(post.author,self.u1)
         self.assertEqual(post.published_at,datetime(2021,1,10,9,0,0,tzinfo=UTC))
+
+
