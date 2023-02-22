@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_headers, vary_on_cookie
+from django.views.decorators.vary import vary_on_headers
 from rest_framework.throttling import ScopedRateThrottle
 from django.db.models import Q
 from django.utils import timezone
