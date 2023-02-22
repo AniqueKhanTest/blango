@@ -11,7 +11,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers, vary_on_cookie
-
+from rest_framework.throttling import ScopedRateThrottle
 ## Class Based Views
 
 # Swagger
@@ -25,18 +25,11 @@ schema_view = get_schema_view(
     public=True
 )
 
-# class PostList(generics.ListCreateAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-
-# class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Post.objects.all()
-#     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
-#     serializer_class = PostDetailSerializer
-
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "post_api"
 
     def get_serializer_class(self):
         if self.action in ("list","create"):
@@ -46,8 +39,6 @@ class PostViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(120))
     def list(self,*args,**kwargs):
         return super(PostViewSet,self).list(*args,**kwargs)
-
-    
 
     @method_decorator(cache_page(300))
     @method_decorator(vary_on_headers("Authorization","Cookie"))
@@ -64,6 +55,8 @@ class UserDetail(generics.RetrieveAPIView):
     lookup_field = "email"
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "user_api"
 
     @method_decorator(cache_page(300))
     def get(self,*args,**kwargs):
@@ -90,7 +83,14 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 
+# class PostList(generics.ListCreateAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
 
+# class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Post.objects.all()
+#     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
+#     serializer_class = PostDetailSerializer
 
 
 
