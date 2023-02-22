@@ -82,6 +82,13 @@ class PostViewSet(viewsets.ModelViewSet):
         if request.user.is_anonymous:
             raise PermissionDenied("You must be logged in the see which Posts are yours")
         posts = self.get_queryset().filter(author=request.user)
+
+        # In order to paginate these custom action methods , we have to do it manually
+        page = self.paginate_queryset(posts)
+        if page:
+            serializer = PostSerializer(page,many=True,context={"request":request})
+            return self.get_paginated_response(serializer.data)
+
         serializer = PostSerializer(posts,many=True,context={"request":request})
         return Response(serializer.data)
 
@@ -102,18 +109,24 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+    # In order to paginate these custom action methods , we have to do it manually
     @action(methods=['get'],detail=True,name='Posts with the Tag')
     def posts(self,request,pk=None):
         tag = self.get_object()
+        page = self.paginate_queryset(tag.posts.all())
+        if page is not None:
+            post_serializer = PostSerializer(page,many=True,context={"request":request})
+            return self.get_paginated_response(post_serializer.data)
+
         post_serializer = PostSerializer(tag.posts,many=True,context={"request":request})
         return Response(post_serializer.data)
 
-    @method_decorator(cache_page(300))
+    # @method_decorator(cache_page(300))
     def list(self, *args, **kwargs):
         return super(TagViewSet, self).list(*args, **kwargs)
 
-    @method_decorator(cache_page(300))
-    def retrieve(self, request, *args, **kwargs):
+    # @method_decorator(cache_page(300))
+    def retrieve(self, *args, **kwargs):
         return super(TagViewSet, self).retrieve(*args, **kwargs)
 
 

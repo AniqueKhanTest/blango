@@ -26,6 +26,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.value
 
+    class Meta:
+        ordering = ['value']
+
 
 class Post(models.Model):
     author = models.ForeignKey(
@@ -39,6 +42,9 @@ class Post(models.Model):
     content = models.TextField()
     tags = models.ManyToManyField(Tag, related_name="posts")
     comments = GenericRelation(Comment)
+
+    class Meta:
+        ordering = ['published_at']
 
     def save(self, *args, **kwargs):
         original_slug = slugify(self.title)
