@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 class Comment(models.Model):
     creator = models.ForeignKey(
@@ -42,9 +42,11 @@ class Post(models.Model):
     content = models.TextField()
     tags = models.ManyToManyField(Tag, related_name="posts")
     comments = GenericRelation(Comment)
+    hero_image = VersatileImageField(upload_to="hero_images",ppoi_field="ppoi",null=True,blank=True)
+    ppoi = PPOIField(blank=True, null=True)
 
     class Meta:
-        ordering = ['published_at']
+        ordering = ['-published_at']
 
     def save(self, *args, **kwargs):
         original_slug = slugify(self.title)
