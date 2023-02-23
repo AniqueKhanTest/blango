@@ -2,6 +2,7 @@ from django.urls import path,include
 from .views import PostViewSet,TagViewSet,UserDetail,schema_view
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views as drf_auth_views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register("tags",TagViewSet)
@@ -25,5 +26,7 @@ urlpatterns+=[
     path("posts/by-time/<str:period_name>/",PostViewSet.as_view({"get": "list"}),name="posts-by-time",),
     path("swagger/",schema_view.with_ui("swagger",cache_timeout=0),name="schema_swagger_ui"),
     path("token-auth/", drf_auth_views.obtain_auth_token),
+    path("jwt/", TokenObtainPairView.as_view(), name="jwt_obtain_pair"),
+    path("jwt/refresh/", TokenRefreshView.as_view(), name="jwt_refresh"),
     path("auth/", include("rest_framework.urls")),
 ]
