@@ -60,7 +60,8 @@ class Dev(Configuration):
         "allauth.socialaccount.providers.google",
         "rest_framework",
         "rest_framework.authtoken",
-        "drf_yasg"
+        "drf_yasg",
+        "django_filters"
     ]
     SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
@@ -250,6 +251,10 @@ class Dev(Configuration):
     },
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 4,
+    "DEFAULT_FILTER_BACKENDS": [
+            "django_filters.rest_framework.DjangoFilterBackend",
+            "rest_framework.filters.OrderingFilter"
+        ],
     }
 
 

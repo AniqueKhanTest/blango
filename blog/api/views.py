@@ -1,4 +1,5 @@
 from ..models import Post,Tag
+from .filters import PostFilterSet
 from .serializers import PostDetailSerializer,PostSerializer,UserSerializer,TagSerializer
 from .permissions import AuthorModifyOrReadOnly,IsAdminUserForObject
 from blango_auth.models import User
@@ -35,6 +36,9 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [AuthorModifyOrReadOnly|IsAdminUserForObject]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "post_api"
+    # filterset_fields = ["author", "tags"]
+    filterset_class = PostFilterSet
+    ordering_fields = ["published_at", "author", "title", "slug"]
 
     def get_serializer_class(self):
         if self.action in ("list","create"):
