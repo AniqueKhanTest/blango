@@ -1,17 +1,30 @@
-{% extends "base.html" %} {% load static %} {% block content %} 
+{% extends "base.html" %} {% load static %} {% block title %}Post Table{% endblock %} 
+{% block content %}
 <div class="row">
   <div class="col">
     <div id="react_root"></div>
   </div>
 </div>
-<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script
+  src="https://unpkg.com/react@17/umd/react.development.js"
+  crossorigin
+></script>
+<script
+  src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+  crossorigin
+></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 {% comment %}
 <script src="{% static 'blog/blog-introduction.js' %}"></script>
 <script src="{% static 'blog/blog-functions.js' %}"></script>
 <script src="{% static 'blog/blog-classes.js' %}"></script>
 <script src="{% static 'blog/blog-promises.js' %}"></script>
+<script src="{% static 'blog/blog-react.js' %}"></script>
+<script type="text/babel" src="{% static 'blog/blog-react-jsx.js' %}"></script>
 {% endcomment %}
 
-<script src="{% static 'blog/blog-react.js' %}"></script>
+<script
+  type="text/babel"
+  src="{% static 'blog/blog-post-row-table.js' %}"
+></script>
 {% endblock %}
