@@ -6,6 +6,7 @@ from django.utils import timezone
 # from django.views.decorators.cache import cache_page
 # from django.views.decorators.vary import vary_on_cookie
 logger = getLogger(__name__)
+from django.urls import reverse
 
 
 # @cache_page(300)
@@ -43,4 +44,4 @@ def post_detail(request, slug):
     return render(request, 'blog/post-detail.html', {"post": post, 'comment_form': comment_form})
 
 def post_table(request):
-    return render(request,'blog/post-table.html')
+    return render(request,'blog/post-table.html',{"post_list_url":reverse("post-list")})
