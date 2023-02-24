@@ -57,7 +57,7 @@ fruitCount['Cherry'] = 2 // is equivalent
 // alert(testingName)
 
 
-// Try it out 
+// // Try it out 
 const theNumber = 1
 let yourName = 'Ben'
 
@@ -68,3 +68,11 @@ if (theNumber === 1) {
 
 alert(yourName)
 
+// let pets = {
+//     cats : 1,
+//     dogs : 3,
+//     fish : 8,
+//     birds : 0 
+//   }
+
+// alert(pets['dogs'])
