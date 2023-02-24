@@ -1,9 +1,17 @@
-{% extends "base.html" %} {% load static %} {% block content %} {% comment %}
+{% extends "base.html" %} {% load static %} {% block content %} 
+<div class="row">
+  <div class="col">
+    <div id="react_root"></div>
+  </div>
+</div>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+{% comment %}
 <script src="{% static 'blog/blog-introduction.js' %}"></script>
-{% endcomment %} {% comment %}
 <script src="{% static 'blog/blog-functions.js' %}"></script>
-{% endcomment %} {% comment %}
 <script src="{% static 'blog/blog-classes.js' %}"></script>
-{% endcomment %}
 <script src="{% static 'blog/blog-promises.js' %}"></script>
+{% endcomment %}
+
+<script src="{% static 'blog/blog-react.js' %}"></script>
 {% endblock %}
