@@ -49,6 +49,7 @@ class PostViewSet(viewsets.ModelViewSet):
         if self.request.user.is_anonymous:
             # published only
             queryset= self.queryset.filter(published_at__lte=timezone.now())
+            # queryset = self.queryset.filter(title__icontains="Tabish")
 
         elif not self.request.user.is_staff:
             #allow all
